@@ -20,4 +20,17 @@ public class UserService implements UserDetailsService {
         logger.trace("Trying to get the user : " + username);
         return userRepository.findByPseudo(username).orElseThrow(()-> new UsernameNotFoundException("No user found with this credential " + username));
     }
+
+    public void save(User user){
+        userRepository.save(user);
+    }
+
+    public void setRefreshtoken(String pseudo, String token){
+        User user = (User) loadUserByUsername(pseudo);
+        user.setRefreshToken(token);
+        save(user);
+    }
+    public String getRefreshToken(String pseudo){
+        return userRepository.findRefreshTokenByPseudo(pseudo).orElseThrow();
+    }
 }

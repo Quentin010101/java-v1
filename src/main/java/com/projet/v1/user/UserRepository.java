@@ -8,4 +8,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByPseudo(String pseudo);
+
+    Optional<String> findRefreshTokenByPseudo(String pseudo);
 }

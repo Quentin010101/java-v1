@@ -1,21 +1,15 @@
-package com.projet.v1.auth;
+package com.projet.v1.security.auth;
 
-import com.projet.v1.dto.AuthenticationDto;
-import com.projet.v1.dto.AuthenticationResponseDto;
-import com.projet.v1.dto.RefreshTokenDto;
 import com.projet.v1.security.JwtService;
 import com.projet.v1.user.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -47,17 +41,26 @@ public class AuthControler {
         return null;
     }
 
-    @PostMapping(path = "refreshToken")
-    public AuthenticationResponseDto refreshToken(@RequestBody RefreshTokenDto refreshTokenDto){
+    @GetMapping(path = "refreshToken")
+    public AuthenticationResponseDto refreshToken(HttpServletRequest request, HttpServletResponse response){
         log.info("access refresh token");
 
-        if(refreshTokenDto.refreshToken() != null && this.jwtService.isTokenExpired(refreshTokenDto.refreshToken())){
-            String pseudo = this.jwtService.extractPseudo(refreshTokenDto.refreshToken());
-            if(pseudo != null){
-                String refreshTokenBase = this.userService.getRefreshToken(pseudo);
-                if(refreshTokenBase != null && refreshTokenBase.equals(refreshTokenDto.refreshToken())){
-                    return new AuthenticationResponseDto(refreshTokenDto.refreshToken(), this.jwtService.generate(pseudo));
-                }
+        String refreshtoken = null;
+        String pseudo = null;
+
+        final String authorization = request.getHeader("Authorization");
+        log.info("Authorization = " + authorization);
+        if(authorization == null || !authorization.startsWith("Bearer ")){
+            return null;
+        }
+
+        refreshtoken = authorization.substring(7);
+        log.info("Token expiration = " + jwtService.isTokenExpired(refreshtoken));
+        pseudo = jwtService.extractPseudo(refreshtoken);
+        if(pseudo !=null && !jwtService.isTokenExpired(refreshtoken)){
+            String refreshTokenBase = this.userService.getRefreshToken(pseudo);
+            if(refreshTokenBase != null && refreshTokenBase.equals(refreshtoken)){
+                return new AuthenticationResponseDto(refreshtoken, this.jwtService.generate(pseudo));
             }
         }
 

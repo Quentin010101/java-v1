@@ -1,4 +1,4 @@
-package com.projet.v1.dto;
+package com.projet.v1.security.auth;
 
 public record AuthenticationDto(String pseudo, String password) {
 

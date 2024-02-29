@@ -1,5 +1,6 @@
 package com.projet.v1.security;
 
+import com.projet.v1.user.User;
 import com.projet.v1.user.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -40,9 +41,11 @@ public class JwtFilter extends OncePerRequestFilter {
                 pseudo = jwtService.extractPseudo(token);
             }
         }
-
+        log.info("Pseudo = " + pseudo);
         if(pseudo != null && SecurityContextHolder.getContext().getAuthentication() == null){
-            UserDetails user = userService.loadUserByUsername(pseudo);
+            log.info("Start building auth context");
+            User user = (User) userService.loadUserByUsername(pseudo);
+            log.info("User retrieve : " + user);
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user,null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         }

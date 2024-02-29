@@ -48,8 +48,8 @@ public class JwtService {
 
         final Map<String, String> claims = Map.of(
                 Claims.SUBJECT, user.getUsername(),
-                Claims.ISSUED_AT, String.valueOf(currentTime),
-                Claims.EXPIRATION, String.valueOf(expirationTime)
+                Claims.ISSUED_AT, String.valueOf(currentTime / 1000),
+                Claims.EXPIRATION, String.valueOf(expirationTime / 1000)
         );
 
         log.info("Current Time for Jwt token : " + currentTime);
@@ -75,6 +75,7 @@ public class JwtService {
 
     public boolean isTokenExpired(String token) {
         Date expirationDate = getExpirationDateFromToken(token);
+        log.info("expiration date : " + expirationDate);
         return expirationDate.before(new Date());
     }
 
@@ -83,6 +84,7 @@ public class JwtService {
     }
 
     private <T> T getClaim(String token, Function<Claims, T> function) {
+
         Claims claims = getAllClaims(token);
         return function.apply(claims);
     }

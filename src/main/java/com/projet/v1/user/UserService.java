@@ -31,6 +31,7 @@ public class UserService implements UserDetailsService {
         save(user);
     }
     public String getRefreshToken(String pseudo){
-        return userRepository.findRefreshTokenByPseudo(pseudo).orElseThrow();
+        User u = userRepository.findByPseudo(pseudo).orElseThrow();
+        return u.getRefreshToken();
     }
 }

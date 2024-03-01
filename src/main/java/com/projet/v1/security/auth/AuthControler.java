@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping(name = "/authentication")
+@RequestMapping("authentication")
 public class AuthControler {
 
     @Autowired
@@ -24,7 +24,7 @@ public class AuthControler {
     private JwtService jwtService;
 
 
-    @PostMapping(path = "login")
+    @PostMapping("login")
     public AuthenticationResponseDto login(@RequestBody AuthenticationDto authenticationDto){
         log.info("authentication with pseudo: " + authenticationDto.pseudo() + " and password: " + authenticationDto.password());
         final Authentication authentication = authenticationManager.authenticate(
@@ -41,7 +41,7 @@ public class AuthControler {
         return null;
     }
 
-    @GetMapping(path = "refreshToken")
+    @GetMapping("refreshToken")
     public AuthenticationResponseDto refreshToken(HttpServletRequest request, HttpServletResponse response){
         log.info("access refresh token");
 

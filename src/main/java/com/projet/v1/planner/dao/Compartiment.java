@@ -1,4 +1,4 @@
-package com.projet.v1.planner;
+package com.projet.v1.planner.dao;
 
 
 import jakarta.persistence.Entity;
@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class CompartimentDao {
+public class Compartiment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

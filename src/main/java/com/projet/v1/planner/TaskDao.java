@@ -1,13 +1,17 @@
 package com.projet.v1.planner;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.projet.v1.planner.dao.Commentaire;
+import com.projet.v1.planner.dao.Compartiment;
+import com.projet.v1.planner.dao.Item;
+import com.projet.v1.planner.dao.Tag;
+import com.projet.v1.planner.enumeration.Importance;
+import com.projet.v1.planner.enumeration.Progression;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -18,6 +22,20 @@ public class TaskDao {
     private Integer taskId;
     private Date dateCreation;
     private Date dateEcheance;
-    private CompartimentDao compartiment;
+    private String title;
+    private String text;
     private Progression progression;
+    private Importance importance;
+
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private Compartiment compartiment;
+
+    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private Tag tag;
+
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private List<Item> items;
+
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    private List<Commentaire> conmentaires;
 }

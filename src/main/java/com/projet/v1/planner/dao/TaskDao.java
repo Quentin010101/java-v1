@@ -1,4 +1,4 @@
-package com.projet.v1.planner;
+package com.projet.v1.planner.dao;
 
 
 import com.projet.v1.planner.dao.Commentaire;
@@ -15,6 +15,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "task")
 public class TaskDao {
 
     @Id
@@ -24,13 +25,13 @@ public class TaskDao {
     private Date dateEcheance;
     private String title;
     private String text;
-    private Progression progression;
-    private Importance importance;
+    private Integer progression;
+    private Integer importance;
 
-    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
     private Compartiment compartiment;
 
-    @ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @ManyToOne(cascade = {  CascadeType.MERGE })
     private Tag tag;
 
     @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })

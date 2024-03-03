@@ -15,4 +15,5 @@ public class Compartiment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer compartimentId;
     private String name;
+    private Integer compartimentOrder;
 }

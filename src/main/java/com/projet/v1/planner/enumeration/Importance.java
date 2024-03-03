@@ -1,7 +1,20 @@
 package com.projet.v1.planner.enumeration;
 
-public enum Importance {
-    Default("Default"),Urgent("Urgent"), Important("Important"), Moyen("Moyen"), Minimum("Minimum");
+import lombok.Getter;
 
-    Importance(String text){}
+@Getter
+public enum Importance {
+    DEFAULT(1,"Default"),
+    URGENT(2, "Urgent"),
+    IMPORTANT(3, "Important"),
+    MOYEN(4, "Moyen"),
+    MINIMUM(5, "Minimum");
+
+    private final Integer id;
+    private final String text;
+
+    Importance(Integer id, String text){
+        this.id=id;
+        this.text=text;
+    }
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("authentication")
 public class AuthControler {
 
@@ -36,7 +37,14 @@ public class AuthControler {
             String token = this.jwtService.generate(authenticationDto.pseudo());
             String refreshToken = this.jwtService.generateRefreshJwt(authenticationDto.pseudo());
             userService.setRefreshtoken(authenticationDto.pseudo(), refreshToken);
-            return new AuthenticationResponseDto(refreshToken, token);
+            log.info(jwtService.getExpirationDateFromToken(token).toString());
+            return new AuthenticationResponseDto(
+                    authenticationDto.pseudo(),
+                    token,
+                    this.jwtService.getExpirationDateFromToken(token).getTime(),
+                    refreshToken,
+                    this.jwtService.getExpirationDateFromToken(refreshToken).getTime()
+            );
         }
         return null;
     }
@@ -56,11 +64,20 @@ public class AuthControler {
 
         refreshtoken = authorization.substring(7);
         log.info("Token expiration = " + jwtService.isTokenExpired(refreshtoken));
+        log.info(refreshtoken);
         pseudo = jwtService.extractPseudo(refreshtoken);
+        log.info(pseudo);
         if(pseudo !=null && !jwtService.isTokenExpired(refreshtoken)){
             String refreshTokenBase = this.userService.getRefreshToken(pseudo);
             if(refreshTokenBase != null && refreshTokenBase.equals(refreshtoken)){
-                return new AuthenticationResponseDto(refreshtoken, this.jwtService.generate(pseudo));
+                String newToken = this.jwtService.generate(pseudo);
+                return new AuthenticationResponseDto(
+                        pseudo,
+                        newToken,
+                        this.jwtService.getExpirationDateFromToken(newToken).getTime(),
+                        refreshtoken,
+                        this.jwtService.getExpirationDateFromToken(refreshtoken).getTime()
+                );
             }
         }
 

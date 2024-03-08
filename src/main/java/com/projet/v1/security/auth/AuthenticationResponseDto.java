@@ -1,4 +1,6 @@
 package com.projet.v1.security.auth;
 
-public record AuthenticationResponseDto(String refreshToken, String token) {
+import java.util.Date;
+
+public record AuthenticationResponseDto(String pseudo, String token, Long expDateToken, String refreshToken, Long expDateRefreshToken) {
 }

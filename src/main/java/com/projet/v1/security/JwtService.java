@@ -43,7 +43,9 @@ public class JwtService {
 
     private String buildToken(UserDetails user, long expiration){
 
-        final long currentTime = System.currentTimeMillis();
+        Date d = new Date();
+        log.info(d.toString());
+        final long currentTime = d.getTime();
         final long expirationTime = currentTime + expiration;
 
         final Map<String, String> claims = Map.of(
@@ -79,7 +81,7 @@ public class JwtService {
         return expirationDate.before(new Date());
     }
 
-    private Date getExpirationDateFromToken(String token) {
+    public Date getExpirationDateFromToken(String token) {
         return this.getClaim(token, Claims::getExpiration);
     }
 

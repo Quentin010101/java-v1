@@ -2,6 +2,7 @@ package com.projet.v1.security;
 
 import com.projet.v1.user.User;
 import com.projet.v1.user.UserService;
+import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,10 +36,18 @@ public class JwtFilter extends OncePerRequestFilter {
         final String authorization = request.getHeader("Authorization");
         log.info("Authorization = " + authorization);
         if(authorization != null && authorization.startsWith("Bearer ")){
-            token = authorization.substring(7);
-            log.info("Token expiration = " + jwtService.isTokenExpired(token));
-            if(!jwtService.isTokenExpired(token)){
-                pseudo = jwtService.extractPseudo(token);
+            if(authorization.length() > 7){
+                token = authorization.substring(7);
+            }
+
+            if(token != null){
+                try{
+                    if(!jwtService.isTokenExpired(token)){
+                        pseudo = jwtService.extractPseudo(token);
+                    }
+                }catch (MalformedJwtException e){
+                    log.info(e.getMessage());
+                }
             }
         }
         log.info("Pseudo = " + pseudo);

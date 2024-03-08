@@ -1,5 +1,5 @@
 package com.projet.v1.security.auth;
 
-public record AuthenticationDto(String pseudo, String password) {
+public record AuthenticationDto(String pseudo, String password, boolean stayLogged) {
 
 }

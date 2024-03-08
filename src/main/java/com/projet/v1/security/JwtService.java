@@ -25,8 +25,8 @@ public class JwtService {
     private String encriptionKey;
     @Value("${application.security.jwt.expiration}")
     private long expiration;
-    @Value("${application.security.jwt.refresh-token.expiration}")
-    private long refreshExpiration;
+    @Value("${application.security.jwt.expirationLong}")
+    private long expirationLong;
 
     @Autowired
     private UserService userService;
@@ -35,10 +35,9 @@ public class JwtService {
         UserDetails user = userService.loadUserByUsername(pseudo);
         return buildToken(user, this.expiration);
     }
-
-    public String generateRefreshJwt(String pseudo) {
+    public String generateLong (String pseudo){
         UserDetails user = userService.loadUserByUsername(pseudo);
-        return buildToken(user, this.refreshExpiration);
+        return buildToken(user, this.expirationLong);
     }
 
     private String buildToken(UserDetails user, long expiration){

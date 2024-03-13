@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("authentication")
+@CrossOrigin("${frontend.server.url}")
+@RequestMapping("/authentication")
 public class AuthControler {
 
     @Autowired
@@ -25,7 +25,7 @@ public class AuthControler {
     private JwtService jwtService;
 
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public AuthenticationResponseDto login(@RequestBody AuthenticationDto authenticationDto){
         log.info("authentication with pseudo: " + authenticationDto.pseudo() + " and password: " + authenticationDto.password());
         final Authentication authentication = authenticationManager.authenticate(

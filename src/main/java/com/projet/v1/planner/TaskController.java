@@ -15,13 +15,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("task")
+@CrossOrigin("${frontend.server.url}")
+@RequestMapping("/task")
 public class TaskController {
 
     @Autowired
     private TaskService taskService;
 
-    @PostMapping("create")
+    @PostMapping("/create")
     public ResponseObjectDto<TaskDao> createNewTask(@RequestBody TaskCreationRequest taskCreationRequest) throws IncorrectRequestInformation {
         if(taskCreationRequest != null) {
             TaskDao task = taskService.createNewTask(taskCreationRequest);
@@ -31,19 +32,19 @@ public class TaskController {
         }
     }
 
-    @GetMapping("delete/{id}")
+    @GetMapping("/delete/{id}")
     public ResponseDto deleteTask(@PathVariable("id") Integer id) throws IncorrectRequestInformation {
         taskService.deleteTask(id);
         return new ResponseDto("the task has been deleted.", true);
     }
 
-    @GetMapping("read")
+    @GetMapping("/read")
     public ResponseObjectDto<List<TaskDao>> getAllTasks()  {
         List<TaskDao> tasks = taskService.getAllTask();
         return new ResponseObjectDto<List<TaskDao>>(null , tasks);
     }
 
-    @PostMapping("update")
+    @PostMapping("/update")
     public ResponseObjectDto<TaskDao> updateTask(@RequestBody TaskDao task) throws IncorrectRequestInformation {
         if(task.getTitle().isBlank() || task.getTaskId() == null)
             throw new IncorrectRequestInformation("Task cant be updated, task is missing data.");

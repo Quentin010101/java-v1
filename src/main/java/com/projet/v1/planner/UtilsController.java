@@ -31,11 +31,11 @@ public class UtilsController {
     }
     @GetMapping("/read/tags")
     public ResponseObjectDto<List<Tag>> getTags(){
-        return new ResponseObjectDto<>(null , utilsService.getAllTags());
+        return new ResponseObjectDto<>(new ResponseDto("", true) , utilsService.getAllTags());
     }
     @GetMapping("/read/compartiments")
     public ResponseObjectDto<List<Compartiment>> getCompartiments(){
-        return new ResponseObjectDto<>(null , utilsService.getAllCompartiments());
+        return new ResponseObjectDto<>(new ResponseDto("", true) , utilsService.getAllCompartiments());
     }
     @PostMapping("/update/tag")
     public ResponseObjectDto<Tag> updateTag(@RequestBody Tag tag) throws IncorrectRequestInformation {

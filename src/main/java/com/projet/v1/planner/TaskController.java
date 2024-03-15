@@ -41,7 +41,7 @@ public class TaskController {
     @GetMapping("/read")
     public ResponseObjectDto<List<TaskDao>> getAllTasks()  {
         List<TaskDao> tasks = taskService.getAllTask();
-        return new ResponseObjectDto<List<TaskDao>>(null , tasks);
+        return new ResponseObjectDto<List<TaskDao>>(new ResponseDto("", true) , tasks);
     }
 
     @PostMapping("/update")

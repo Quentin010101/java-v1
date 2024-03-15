@@ -28,7 +28,7 @@ public class TaskDao {
     private Integer progression;
     private Integer importance;
 
-    @ManyToOne(cascade = { CascadeType.MERGE, CascadeType.REMOVE })
+    @ManyToOne(cascade = { CascadeType.MERGE })
     private Compartiment compartiment;
 
     @ManyToOne(cascade = {  CascadeType.MERGE })

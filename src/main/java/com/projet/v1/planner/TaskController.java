@@ -7,6 +7,7 @@ import com.projet.v1.exception.IncorrectRequestInformation;
 import com.projet.v1.planner.dao.TaskDao;
 import com.projet.v1.planner.dto.TaskCreationRequest;
 import com.projet.v1.planner.service.TaskService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @CrossOrigin("${frontend.server.url}")
 @RequestMapping("/task")
+@Slf4j
 public class TaskController {
 
     @Autowired
@@ -46,14 +48,15 @@ public class TaskController {
 
     @PostMapping("/update")
     public ResponseObjectDto<TaskDao> updateTask(@RequestBody TaskDao task) throws IncorrectRequestInformation {
-        if(task.getTitle().isBlank() || task.getTaskId() == null)
+        if(task.getTitle().isBlank() || task.getTaskId() == null){
             throw new IncorrectRequestInformation("Task cant be updated, task is missing data.");
+        }
         TaskDao response = taskService.updateTask(task);
-        return new ResponseObjectDto<TaskDao>(new ResponseDto("The task has been updated.", true), response);
+        return new ResponseObjectDto<>(new ResponseDto("The task has been updated.", true), response);
     }
 
     @ExceptionHandler(IncorrectRequestInformation.class)
     public ResponseEntity<String> handle(IncorrectRequestInformation ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.OK);
     }
 }

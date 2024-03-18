@@ -19,14 +19,6 @@ import java.util.UUID;
 @RestController
 public class V1Application implements CommandLineRunner {
 
-	@RequestMapping("/resource")
-	public Map<String,Object> home() {
-		Map<String,Object> model = new HashMap<String,Object>();
-		model.put("id", UUID.randomUUID().toString());
-		model.put("content", "Hello World");
-		return model;
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(V1Application.class, args);
 	}

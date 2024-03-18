@@ -50,7 +50,18 @@ public class TaskService {
 
     public TaskDao updateTask(TaskDao task) throws IncorrectRequestInformation {
         if(!verifyTask(task)) throw new IncorrectRequestInformation("This task is not correctly built.");
-        return taskRepository.save(task);
+        TaskDao taskToBeUpdated = taskRepository.findById(task.getTaskId()).orElseThrow();
+
+        taskToBeUpdated.setCompartiment(task.getCompartiment());
+        taskToBeUpdated.setImportance(task.getImportance());
+        taskToBeUpdated.setProgression(task.getProgression());
+        taskToBeUpdated.setConmentaires(task.getConmentaires());
+        taskToBeUpdated.setDateEcheance(task.getDateEcheance());
+        taskToBeUpdated.setItems(task.getItems());
+        taskToBeUpdated.setTag(task.getTag());
+        taskToBeUpdated.setText(task.getText());
+
+        return taskRepository.save(taskToBeUpdated);
     }
 
 

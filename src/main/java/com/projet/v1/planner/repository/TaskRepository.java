@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface TaskRepository extends JpaRepository<TaskDao, Integer> {
     List<TaskDao> findByCompartiment(Compartiment commp);
+
 }
+

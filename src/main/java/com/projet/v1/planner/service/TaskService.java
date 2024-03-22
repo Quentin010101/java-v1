@@ -1,6 +1,7 @@
 package com.projet.v1.planner.service;
 
 import com.projet.v1.exception.IncorrectRequestInformation;
+import com.projet.v1.planner.repository.CompartimentRepository;
 import com.projet.v1.planner.repository.TaskRepository;
 import com.projet.v1.planner.dao.TaskDao;
 import com.projet.v1.planner.dto.TaskCreationRequest;
@@ -10,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 @Slf4j
@@ -18,6 +21,9 @@ public class TaskService {
 
     @Autowired
     private TaskRepository taskRepository;
+
+    @Autowired
+    private CompartimentRepository compartimentRepository;
     @Autowired
     private VerifService verifService;
 
@@ -30,13 +36,31 @@ public class TaskService {
         if(!verifService.compartimentExist(taskCreationRequest.compartiment())){
             throw new IncorrectRequestInformation("The task's compartiment is required.");
         }
+
         TaskDao task = new TaskDao();
+        task.setTaskorder(setTaskOrder(taskCreationRequest));
         task.setTitle(taskCreationRequest.title());
         task.setDateCreation(new Date());
         task.setImportance(Importance.DEFAULT.getId());
         task.setProgression(Progression.DEFAULT.getId());
         task.setCompartiment(taskCreationRequest.compartiment());
         return taskRepository.save(task);
+    }
+
+    private Integer setTaskOrder(TaskCreationRequest task){
+        List<TaskDao> listTask = taskRepository.findByCompartiment(compartimentRepository.findById(task.compartiment().getCompartimentId()).orElseThrow());
+        Integer lastOrder;
+        listTask.sort(Comparator.comparingInt(TaskDao::getTaskorder));
+        for(TaskDao t : listTask){
+            log.info(t.toString());
+        }
+        if(!listTask.isEmpty()){
+            lastOrder = listTask.get(listTask.size() - 1).getTaskorder() + 1;
+        }else {
+            lastOrder = 1;
+        }
+        log.info(String.valueOf(lastOrder));
+        return lastOrder;
     }
 
     public void deleteTask(Integer id) throws IncorrectRequestInformation {

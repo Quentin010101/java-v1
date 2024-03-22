@@ -27,6 +27,7 @@ public class TaskDao {
     private String text;
     private Integer progression;
     private Integer importance;
+    private Integer taskorder;
 
     @ManyToOne(cascade = { CascadeType.MERGE })
     private Compartiment compartiment;
@@ -39,4 +40,22 @@ public class TaskDao {
 
     @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Commentaire> conmentaires;
+
+    @Override
+    public String toString() {
+        return "TaskDao{" +
+                "taskId=" + taskId +
+                ", dateCreation=" + dateCreation +
+                ", dateEcheance=" + dateEcheance +
+                ", title='" + title + '\'' +
+                ", text='" + text + '\'' +
+                ", progression=" + progression +
+                ", importance=" + importance +
+                ", taskorder=" + taskorder +
+                ", compartiment=" + compartiment +
+                ", tag=" + tag +
+                ", items=" + items +
+                ", conmentaires=" + conmentaires +
+                '}';
+    }
 }

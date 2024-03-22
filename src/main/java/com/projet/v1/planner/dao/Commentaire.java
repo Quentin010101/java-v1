@@ -17,4 +17,13 @@ public class Commentaire {
     private Integer commentaireId;
     private String text;
     private Date dateCreation;
+
+    @Override
+    public String toString() {
+        return "Commentaire{" +
+                "commentaireId=" + commentaireId +
+                ", text='" + text + '\'' +
+                ", dateCreation=" + dateCreation +
+                '}';
+    }
 }

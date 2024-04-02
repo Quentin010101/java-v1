@@ -6,6 +6,7 @@ import com.projet.v1.dto.ResponseObjectDto;
 import com.projet.v1.exception.IncorrectRequestInformation;
 import com.projet.v1.planner.dao.TaskDao;
 import com.projet.v1.planner.dto.TaskCreationRequest;
+import com.projet.v1.planner.dto.TasksContainer;
 import com.projet.v1.planner.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -53,6 +55,15 @@ public class TaskController {
         }
         TaskDao response = taskService.updateTask(task);
         return new ResponseObjectDto<>(new ResponseDto("The task has been updated.", true), response);
+    }
+
+    @PostMapping("/updateDragEvent")
+    public ResponseDto updateTaskAfterDrag(@RequestBody TaskDao task) throws IncorrectRequestInformation {
+        if(task.getTitle().isBlank() || task.getTaskId() == null){
+            throw new IncorrectRequestInformation("Task cant be updated, task is missing data.");
+        }
+        taskService.updateTaskAfterDrag(task);
+        return new ResponseDto("The tasks have been updated.", true);
     }
 
     @ExceptionHandler(IncorrectRequestInformation.class)

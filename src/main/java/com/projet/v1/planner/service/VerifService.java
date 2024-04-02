@@ -24,6 +24,9 @@ public class VerifService {
     public boolean compartimentExist(Compartiment comp){
         return compartimentRepository.existsById(comp.getCompartimentId());
     }
+    public boolean compartimentExist(Integer id){
+        return compartimentRepository.existsById(id);
+    }
     public boolean tagExist(TaskDao task){
         if(task.getTag() == null) return true;
         return tagRepository.existsById(task.getTag().getTagId());

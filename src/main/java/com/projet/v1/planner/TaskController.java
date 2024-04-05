@@ -45,6 +45,7 @@ public class TaskController {
     @GetMapping("/read")
     public ResponseObjectDto<List<TaskDao>> getAllTasks()  {
         List<TaskDao> tasks = taskService.getAllTask();
+        log.info("Get all" + tasks.toString());
         return new ResponseObjectDto<List<TaskDao>>(new ResponseDto("", true) , tasks);
     }
 

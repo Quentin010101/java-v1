@@ -79,7 +79,7 @@ public class TaskService {
         taskToBeUpdated.setCompartiment(task.getCompartiment());
         taskToBeUpdated.setImportance(task.getImportance());
         taskToBeUpdated.setProgression(task.getProgression());
-        taskToBeUpdated.setConmentaires(task.getConmentaires());
+        taskToBeUpdated.setCommentaires(task.getCommentaires());
         taskToBeUpdated.setDateEcheance(task.getDateEcheance());
         taskToBeUpdated.setItems(task.getItems());
         taskToBeUpdated.setTag(task.getTag());

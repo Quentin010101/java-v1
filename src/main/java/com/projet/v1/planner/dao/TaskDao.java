@@ -43,7 +43,7 @@ public class TaskDao {
     private List<Item> items;
 
     @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    private List<Commentaire> conmentaires;
+    private List<Commentaire> commentaires;
 
 //    @Override
 //    public String toString() {

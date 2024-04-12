@@ -96,7 +96,7 @@ public class V1Application implements CommandLineRunner {
 
 		TaskDao t1 = new TaskDao(1,new Date(),new Date(),"Task to do","Remember to buy milk and bread too.",
 						Progression.START.getId(), Importance.IMPORTANT.getId(),1,c1,ta1,l,lc);
-		TaskDao t2 = new TaskDao(2,new Date(),new Date(),"Buy groceries","Remember to buy milk and bread too.",
+		TaskDao t2 = new TaskDao(2,new Date(), null,"Buy groceries","Remember to buy milk and bread too.",
 						Progression.FINISH.getId(), Importance.MINIMUM.getId(),1,c3,ta3,null,null);
 		TaskDao t3 = new TaskDao(3,new Date(),new Date(),"Home core","Remember to buy milk and bread too.",
 						Progression.START.getId(), Importance.MOYEN.getId(),2,c1,ta2,null,null);

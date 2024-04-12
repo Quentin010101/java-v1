@@ -51,20 +51,22 @@ public class TaskController {
 
     @PostMapping("/update")
     public ResponseObjectDto<TaskDao> updateTask(@RequestBody TaskDao task) throws IncorrectRequestInformation {
+        log.info(task.toString());
         if(task.getTitle().isBlank() || task.getTaskId() == null){
             throw new IncorrectRequestInformation("Task cant be updated, task is missing data.");
         }
         TaskDao response = taskService.updateTask(task);
+        log.info(task.toString());
         return new ResponseObjectDto<>(new ResponseDto("The task has been updated.", true), response);
     }
 
     @PostMapping("/updateDragEvent")
-    public ResponseDto updateTaskAfterDrag(@RequestBody TaskDao task) throws IncorrectRequestInformation {
-        if(task.getTitle().isBlank() || task.getTaskId() == null){
-            throw new IncorrectRequestInformation("Task cant be updated, task is missing data.");
+    public ResponseObjectDto<List<TaskDao>> updateTaskAfterDrag(@RequestBody List<List<TaskDao>> tasksList) throws IncorrectRequestInformation {
+        if(tasksList.isEmpty()){
+            throw new IncorrectRequestInformation("Tasks list is empty.");
         }
-        taskService.updateTaskAfterDrag(task);
-        return new ResponseDto("The tasks have been updated.", true);
+        taskService.updateListTasks(tasksList);
+        return new ResponseObjectDto<>(new ResponseDto("Tasks updated after drop", true), taskService.getAllTask());
     }
 
     @ExceptionHandler(IncorrectRequestInformation.class)

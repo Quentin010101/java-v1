@@ -89,109 +89,22 @@ public class TaskService {
         return taskRepository.save(taskToBeUpdated);
     }
 
-    public void updateTaskAfterDrag(TaskDao task) throws IncorrectRequestInformation {
-        if (!verifyTask(task)) throw new IncorrectRequestInformation("This task is not correctly built.");
-        TaskDao taskToBeUpdated = taskRepository.findById(task.getTaskId()).orElseThrow();
-
-        boolean compartimentChanged = !Objects.equals(taskToBeUpdated.getCompartiment().getCompartimentId(), task.getCompartiment().getCompartimentId());
-        boolean orderChanged = !Objects.equals(taskToBeUpdated.getTaskorder(), task.getTaskorder());
-        if(!compartimentChanged && !orderChanged){
-            //nothing Changed
-            this.updateTask(task);
-        } else if (!compartimentChanged) {
-            //compartiment didnt change
-            List<TaskDao> tasks = this.taskRepository.findByCompartiment(taskToBeUpdated.getCompartiment());
-            List<TaskDao> tasksOrderChanged = this.handleJustOrderChange(tasks, task);
-            this.updateTasks(tasksOrderChanged);
-        }else{
-            List<TaskDao> tasksFromOldComp = this.taskRepository.findByCompartiment(taskToBeUpdated.getCompartiment());
-            List<TaskDao> tasksFromNewComp = this.taskRepository.findByCompartiment(task.getCompartiment());
-            handleCompChangeOld(tasksFromOldComp, task);
-            handleCompChangeNew(tasksFromNewComp, task);
-        }
-
-    }
-    private void handleCompChangeOld(List<TaskDao> tasksFromOldComp, TaskDao task) throws IncorrectRequestInformation {
-        tasksFromOldComp.sort(new TaskDaoComparator());
-        tasksFromOldComp.removeIf(t -> Objects.equals(t.getTaskId(), task.getTaskId()));
-        updateOrderTasks(tasksFromOldComp);
-        this.updateTasks(tasksFromOldComp);
-    }
-    private void handleCompChangeNew(List<TaskDao> tasksFromNewComp,TaskDao task) throws IncorrectRequestInformation {
-        tasksFromNewComp.sort(new TaskDaoComparator());
-        Integer orderAlreadyOccupied = returnIndexOfTaskWithSameOrder(tasksFromNewComp,task);
-        if(orderAlreadyOccupied != null){
-            tasksFromNewComp.add(orderAlreadyOccupied, task);
-        }else{
-            tasksFromNewComp.add(task);
-        }
-        updateOrderTasks(tasksFromNewComp);
-        this.updateTasks(tasksFromNewComp);
-    }
-    private List<TaskDao> handleJustOrderChange(List<TaskDao> tasks, TaskDao task){
-        // sort array
-        tasks.sort(new TaskDaoComparator());
-        log.info(tasks.toString());
-
-        Integer oldOrder = null;
-        Integer newOrder = null;
-        //replace in list old task by new one.
-        int index = 0;
-        for(TaskDao t:tasks){
-            if(Objects.equals(t.getTaskId(), task.getTaskId())){
-                newOrder = task.getTaskorder();
-                oldOrder = t.getTaskorder();
-
-                break;
-            }
-            index ++;
-        }
-        tasks.remove(index);
-
-        Integer orderAlreadyOccupied = returnIndexOfTaskWithSameOrder(tasks,task);
-        if(orderAlreadyOccupied != null){
-            if(oldOrder != null) {
-                if (oldOrder > newOrder) {
-                    tasks.add(orderAlreadyOccupied, task);
-                } else if (oldOrder < newOrder) {
-                    tasks.add(orderAlreadyOccupied + 1, task);
-                }
-            }
-        }
-
-        updateOrderTasks(tasks);
-
-        return tasks;
-    }
-
-    private void updateOrderTasks(List<TaskDao> tasks){
-        int i = 1;
-        for(TaskDao t: tasks){
-            t.setTaskorder(i);
-            i++;
+    public void updateListTasks(List<List<TaskDao>> listTasks) throws IncorrectRequestInformation {
+        for(List<TaskDao> tasks: listTasks){
+            this.updateTasks(tasks);
         }
     }
-
-    private Integer returnIndexOfTaskWithSameOrder(List<TaskDao> tasks, TaskDao task){
-        int index = 0;
-        Integer result = null;
-        for(TaskDao t: tasks){
-            if(Objects.equals(t.getTaskorder(),task.getTaskorder())){
-                result = index;
-            }
-            index ++;
-        }
-        return result;
-    }
-
     private void updateTasks(List<TaskDao> tasks) throws IncorrectRequestInformation {
         for(TaskDao task: tasks){
             this.updateTask(task);
         }
+        taskRepository.flush();
+
     }
 
     private boolean verifyTask(TaskDao task){
         if(task.getDateCreation() == null) return false;
+        if(task.getTaskorder() == null || task.getTaskorder() < 1) return false;
         if(!verifService.compartimentExist(task)) return false;
         return verifService.tagExist(task);
     }
@@ -202,9 +115,4 @@ public class TaskService {
     }
 }
 
-class TaskDaoComparator implements java.util.Comparator<TaskDao> {
-    @Override
-    public int compare(TaskDao a, TaskDao b) {
-        return a.getTaskorder() - b.getTaskorder();
-    }
-}
+

@@ -68,6 +68,7 @@ public class TaskDao {
         return "TaskDao{" +
                 "taskId=" + taskId +
                 ", taskorder=" + taskorder +
+                ", compartiment id=" +compartiment.getCompartimentId() +
                 '}';
     }
 }

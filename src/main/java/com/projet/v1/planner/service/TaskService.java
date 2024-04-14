@@ -82,7 +82,7 @@ public class TaskService {
         taskToBeUpdated.setCommentaires(task.getCommentaires());
         taskToBeUpdated.setDateEcheance(task.getDateEcheance());
         taskToBeUpdated.setItems(task.getItems());
-        taskToBeUpdated.setTag(task.getTag());
+        taskToBeUpdated.setTags(task.getTags());
         taskToBeUpdated.setText(task.getText());
         taskToBeUpdated.setTaskorder(task.getTaskorder());
 
@@ -106,7 +106,7 @@ public class TaskService {
         if(task.getDateCreation() == null) return false;
         if(task.getTaskorder() == null || task.getTaskorder() < 1) return false;
         if(!verifService.compartimentExist(task)) return false;
-        return verifService.tagExist(task);
+        return verifService.tagsExist(task);
     }
 
     public List<TaskDao> getTasksByCompartiment(Integer compartimentId){

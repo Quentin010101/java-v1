@@ -36,8 +36,8 @@ public class TaskDao {
     @ManyToOne(cascade = { CascadeType.MERGE })
     private Compartiment compartiment;
 
-    @ManyToOne(cascade = {  CascadeType.MERGE })
-    private Tag tag;
+    @ManyToMany(cascade = {  CascadeType.MERGE })
+    private List<Tag> tags;
 
     @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<Item> items;

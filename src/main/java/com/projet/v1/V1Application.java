@@ -65,6 +65,12 @@ public class V1Application implements CommandLineRunner {
 		Tag ta2 = new Tag(2,"Sound 2");
 		Tag ta3 = new Tag(3,"Sound 3");
 
+		List<Tag> listeTag= new ArrayList<>();
+		listeTag.add(ta1);
+		listeTag.add(ta2);
+		List<Tag> listeTag2= new ArrayList<>();
+		listeTag2.add(ta2);
+		listeTag2.add(ta3);
 		tagRepository.save(ta1);
 		tagRepository.save(ta2);
 		tagRepository.save(ta3);
@@ -95,11 +101,11 @@ public class V1Application implements CommandLineRunner {
 
 
 		TaskDao t1 = new TaskDao(1,new Date(),new Date(),"Task to do","Remember to buy milk and bread too.",
-						Progression.START.getId(), Importance.IMPORTANT.getId(),1,c1,ta1,l,lc);
+						Progression.START.getId(), Importance.IMPORTANT.getId(),1,c1,listeTag2,l,lc);
 		TaskDao t2 = new TaskDao(2,new Date(), null,"Buy groceries","Remember to buy milk and bread too.",
-						Progression.FINISH.getId(), Importance.MINIMUM.getId(),1,c3,ta3,null,null);
+						Progression.FINISH.getId(), Importance.MINIMUM.getId(),1,c3,listeTag2,null,null);
 		TaskDao t3 = new TaskDao(3,new Date(),new Date(),"Home core","Remember to buy milk and bread too.",
-						Progression.START.getId(), Importance.MOYEN.getId(),2,c1,ta2,null,null);
+						Progression.START.getId(), Importance.MOYEN.getId(),2,c1,listeTag,null,null);
 
 
 		taskRepository.save(t1);

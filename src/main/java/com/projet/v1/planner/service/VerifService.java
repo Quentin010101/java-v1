@@ -9,6 +9,8 @@ import com.projet.v1.planner.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class VerifService {
     @Autowired
@@ -27,9 +29,17 @@ public class VerifService {
     public boolean compartimentExist(Integer id){
         return compartimentRepository.existsById(id);
     }
-    public boolean tagExist(TaskDao task){
-        if(task.getTag() == null) return true;
-        return tagRepository.existsById(task.getTag().getTagId());
+    public boolean tagsExist(TaskDao task){
+        if(task.getTags() == null) return true;
+        List<Tag> list = task.getTags();
+        boolean result = true;
+        for (Tag tag : list) {
+            if (!tagRepository.existsById(tag.getTagId())) {
+                result = false;
+                break;
+            }
+        }
+        return result;
     }
     public boolean tagExist(Tag tag){
         return tagRepository.existsById(tag.getTagId());

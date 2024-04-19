@@ -50,8 +50,14 @@ public class V1Application implements CommandLineRunner {
 		u2.setPassword(passwordEncoder.encode("1234"));
 		u2.setRole(Role.USER);
 
+		User u3 = new User();
+		u3.setPseudo("demo");
+		u3.setPassword(passwordEncoder.encode("1234"));
+		u3.setRole(Role.USER);
+
 		userRepository.save(u);
 		userRepository.save(u2);
+		userRepository.save(u3);
 
 		addTasks();
 	}

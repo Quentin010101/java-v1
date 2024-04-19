@@ -85,6 +85,7 @@ public class TaskService {
         taskToBeUpdated.setTags(task.getTags());
         taskToBeUpdated.setText(task.getText());
         taskToBeUpdated.setTaskorder(task.getTaskorder());
+        log.info("tags:" + taskToBeUpdated.getTags().toString());
 
         return taskRepository.save(taskToBeUpdated);
     }

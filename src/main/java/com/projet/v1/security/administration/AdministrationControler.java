@@ -29,6 +29,9 @@ public class AdministrationControler {
     @GetMapping("users/all")
     public ResponseObjectDto<List<User>> getUser(){
         List<User> usersList = userService.getAllUsers(Role.USER);
+        for(User u : usersList){
+            log.info(u.toString2());
+        }
         return new ResponseObjectDto<>(new ResponseDto("List of all users.", true), usersList);
     }
 }

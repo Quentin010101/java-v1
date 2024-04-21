@@ -23,6 +23,8 @@ public class User implements UserDetails {
     private String password;
     private Role role;
     private String refreshToken;
+    private boolean isAccountNonLocked;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + this.role.toString()));
@@ -45,7 +47,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return this.isAccountNonLocked;
     }
 
     @Override
@@ -66,6 +68,15 @@ public class User implements UserDetails {
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 ", refreshToken='" + refreshToken + '\'' +
+                '}';
+    }
+
+    public String toString2() {
+        return "User{" +
+                "userId=" + userId +
+                ", pseudo='" + pseudo + '\'' +
+                ", role=" + role +
+                ", isAccountNonLocked=" + isAccountNonLocked +
                 '}';
     }
 }

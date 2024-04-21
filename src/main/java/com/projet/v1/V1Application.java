@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 @SpringBootApplication
@@ -40,24 +41,31 @@ public class V1Application implements CommandLineRunner {
 	PasswordEncoder passwordEncoder;
 	@Override
 	public void run(String... args) throws Exception {
-		User u = new User();
-		u.setPseudo("quentin");
-		u.setPassword(passwordEncoder.encode("1234"));
-		u.setRole(Role.ADMIN);
+		String[] pseudo = {"quentin", "user", "demo", "Iron", "Nova","Milo"};
 
-		User u2 = new User();
-		u2.setPseudo("user");
-		u2.setPassword(passwordEncoder.encode("1234"));
-		u2.setRole(Role.USER);
+		int i = 0;
+		for(String p : pseudo){
+			User u = new User();
+			u.setPseudo(p);
 
-		User u3 = new User();
-		u3.setPseudo("demo");
-		u3.setPassword(passwordEncoder.encode("1234"));
-		u3.setRole(Role.USER);
+			if(i == 2){
+				u.setAccountNonLocked(false);
+			}else{
+				u.setAccountNonLocked(true);
+			}
+			u.setPassword(passwordEncoder.encode("1234"));
 
-		userRepository.save(u);
-		userRepository.save(u2);
-		userRepository.save(u3);
+
+			switch (p){
+				case "quentin" : u.setRole(Role.ADMIN); break;
+				case "demo" : u.setRole(Role.DEMO); break;
+				default: u.setRole(Role.USER);
+			}
+
+			userRepository.save(u);
+
+			i++;
+		}
 
 		addTasks();
 	}

@@ -54,7 +54,7 @@ public class V1Application implements CommandLineRunner {
 				u.setAccountNonLocked(true);
 			}
 			u.setPassword(passwordEncoder.encode("1234"));
-
+			u.setDateCreation(new Date());
 
 			switch (p){
 				case "quentin" : u.setRole(Role.ADMIN); break;

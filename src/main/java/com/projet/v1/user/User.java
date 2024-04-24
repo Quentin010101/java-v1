@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 
 @Entity
 @Table(name="_user")
@@ -19,11 +20,13 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userId;
+    @Column(unique=true)
     private String pseudo;
     private String password;
     private Role role;
-    private String refreshToken;
     private boolean isAccountNonLocked;
+    private Date dateCreation;
+    private Date dateLastConnection;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -67,7 +70,6 @@ public class User implements UserDetails {
                 ", pseudo='" + pseudo + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
-                ", refreshToken='" + refreshToken + '\'' +
                 '}';
     }
 

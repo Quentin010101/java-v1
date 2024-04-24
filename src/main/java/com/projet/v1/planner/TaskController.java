@@ -11,6 +11,7 @@ import com.projet.v1.planner.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -71,6 +72,7 @@ public class TaskController {
 
     @ExceptionHandler(IncorrectRequestInformation.class)
     public ResponseEntity<String> handle(IncorrectRequestInformation ex){
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.OK);
+
+        return new ResponseEntity<>(ex.getMessage(), HttpStatusCode.valueOf(650));
     }
 }

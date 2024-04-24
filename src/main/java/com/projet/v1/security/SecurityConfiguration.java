@@ -33,6 +33,8 @@ public class SecurityConfiguration {
 
     @Autowired
     private JwtFilter jwtFilter;
+    @Autowired
+    private UserDateFilter userDateFilter;
 
 
     @Bean
@@ -52,7 +54,8 @@ public class SecurityConfiguration {
                 )
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
                         httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtFilter,UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtFilter,UsernamePasswordAuthenticationFilter.class)
+                .addFilterAfter(userDateFilter,JwtFilter.class);
 
         return http.build();
     }
@@ -62,7 +65,6 @@ public class SecurityConfiguration {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
 
     @Bean

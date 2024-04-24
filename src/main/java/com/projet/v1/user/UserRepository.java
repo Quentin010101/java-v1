@@ -11,4 +11,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByPseudo(String pseudo);
 
     List<User> findByRole(Role role);
+
+    boolean existsByPseudo(String pseudo);
 }

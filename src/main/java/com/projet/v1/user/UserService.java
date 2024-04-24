@@ -2,6 +2,7 @@ package com.projet.v1.user;
 
 import com.projet.v1.exception.IncorrectRequestInformation;
 import com.projet.v1.security.SecurityConfiguration;
+import com.projet.v1.security.administration.AdministrationNewUserDto;
 import com.projet.v1.security.administration.AdministrationUserDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -26,6 +29,21 @@ public class UserService implements UserDetailsService {
         return userRepository.findByPseudo(username).orElseThrow(()-> new UsernameNotFoundException("No user found with this credential " + username));
     }
 
+    public AdministrationUserDto create(AdministrationNewUserDto user) throws IncorrectRequestInformation {
+        if(userRepository.existsByPseudo(user.pseudo())) throw new IncorrectRequestInformation("User pseudo already exist");
+        User newUser = new User();
+        newUser.setAccountNonLocked(false);
+        newUser.setDateCreation(new Date());
+        newUser.setRole(Role.USER);
+        newUser.setPassword(user.password());
+        newUser.setPseudo(user.pseudo());
+        return mapperUserTODto(userRepository.save(newUser));
+    }
+
+    public void deleteUser(Integer id){
+        userRepository.deleteById(id);
+    }
+
     public void save(User user){
         userRepository.save(user);
     }
@@ -34,7 +52,7 @@ public class UserService implements UserDetailsService {
         List<User> list = userRepository.findByRole(role);
         List<AdministrationUserDto> dtoList = new ArrayList<>();
         for(User user: list){
-            AdministrationUserDto admUser = new AdministrationUserDto(user.getUserId(),user.getRole(),user.isAccountNonLocked(),user.getPseudo());
+            AdministrationUserDto admUser = mapperUserTODto(user);
             dtoList.add(admUser);
         }
         return dtoList;
@@ -45,7 +63,18 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findById(userDto.userId()).orElseThrow();
         user.setAccountNonLocked(userDto.accountNonLocked());
         User newUser = userRepository.save(user);
-        return new AdministrationUserDto(newUser.getUserId(),newUser.getRole(),newUser.isAccountNonLocked(),newUser.getPseudo());
+        return mapperUserTODto(newUser);
+    }
+
+    private AdministrationUserDto mapperUserTODto(User user){
+        return new AdministrationUserDto(
+                user.getUserId(),
+                user.getRole(),
+                user.isAccountNonLocked(),
+                user.getPseudo(),
+                user.getDateCreation(),
+                user.getDateLastConnection()
+        );
     }
 
 }

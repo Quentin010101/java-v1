@@ -39,9 +39,8 @@ public class AuthControler {
             }else{
                 token = this.jwtService.generate(authenticationDto.pseudo());
             }
-            User u = (User)userService.loadUserByUsername(authentication.getPrincipal().toString());
+
             return new AuthenticationResponseDto(
-                    u.getUserId(),
                     authenticationDto.pseudo(),
                     token,
                     this.jwtService.getExpirationDateFromToken(token).getTime()

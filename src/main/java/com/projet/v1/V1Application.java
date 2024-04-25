@@ -6,6 +6,8 @@ import com.projet.v1.module.planner.enumeration.Progression;
 import com.projet.v1.module.planner.repository.CompartimentRepository;
 import com.projet.v1.module.planner.repository.TagRepository;
 import com.projet.v1.module.planner.repository.TaskRepository;
+import com.projet.v1.security.userConfiguration.UserConfigurationDao;
+import com.projet.v1.security.userConfiguration.UserConfigurationService;
 import com.projet.v1.user.Role;
 import com.projet.v1.user.User;
 import com.projet.v1.user.UserRepository;
@@ -37,6 +39,10 @@ public class V1Application implements CommandLineRunner {
 	TaskRepository taskRepository;
 	@Autowired
 	PasswordEncoder passwordEncoder;
+
+	@Autowired
+	UserConfigurationService userConfigurationService;
+
 	@Override
 	public void run(String... args) throws Exception {
 		String[] pseudo = {"quentin", "user", "demo", "Iron", "Nova","Milo"};
@@ -62,6 +68,11 @@ public class V1Application implements CommandLineRunner {
 
 			userRepository.save(u);
 
+			UserConfigurationDao conf = new UserConfigurationDao();
+			conf.setModules(new ArrayList<>());
+			conf.setUserId(i + 1);
+
+			userConfigurationService.save(conf);
 			i++;
 		}
 

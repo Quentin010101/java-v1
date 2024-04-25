@@ -1,21 +1,18 @@
-package com.projet.v1.planner;
+package com.projet.v1.module.planner;
 
 
 import com.projet.v1.dto.ResponseDto;
 import com.projet.v1.dto.ResponseObjectDto;
 import com.projet.v1.exception.IncorrectRequestInformation;
-import com.projet.v1.planner.dao.TaskDao;
-import com.projet.v1.planner.dto.TaskCreationRequest;
-import com.projet.v1.planner.dto.TasksContainer;
-import com.projet.v1.planner.service.TaskService;
+import com.projet.v1.module.planner.dao.TaskDao;
+import com.projet.v1.module.planner.dto.TaskCreationRequest;
+import com.projet.v1.module.planner.service.TaskService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

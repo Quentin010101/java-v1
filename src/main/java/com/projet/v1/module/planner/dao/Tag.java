@@ -1,4 +1,5 @@
-package com.projet.v1.planner.dao;
+package com.projet.v1.module.planner.dao;
+
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,11 +13,18 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Item {
+public class Tag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer itemId;
-    private String text;
-    private boolean actif;
+    private Integer tagId;
+    private String name;
+
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "tagId=" + tagId +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

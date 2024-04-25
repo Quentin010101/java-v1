@@ -1,5 +1,4 @@
-package com.projet.v1.planner.dao;
-
+package com.projet.v1.module.planner.dao;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,11 +12,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Compartiment {
+public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer compartimentId;
-    private String name;
-    private Integer compartimentOrder;
+    private Integer itemId;
+    private String text;
+    private boolean actif;
 }

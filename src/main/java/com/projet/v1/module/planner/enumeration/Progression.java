@@ -1,4 +1,4 @@
-package com.projet.v1.planner.enumeration;
+package com.projet.v1.module.planner.enumeration;
 
 import lombok.Getter;
 

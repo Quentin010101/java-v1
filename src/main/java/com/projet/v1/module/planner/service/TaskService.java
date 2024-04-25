@@ -1,14 +1,13 @@
-package com.projet.v1.planner.service;
+package com.projet.v1.module.planner.service;
 
 import com.projet.v1.exception.IncorrectRequestInformation;
-import com.projet.v1.planner.dao.Compartiment;
-import com.projet.v1.planner.dto.TasksContainer;
-import com.projet.v1.planner.repository.CompartimentRepository;
-import com.projet.v1.planner.repository.TaskRepository;
-import com.projet.v1.planner.dao.TaskDao;
-import com.projet.v1.planner.dto.TaskCreationRequest;
-import com.projet.v1.planner.enumeration.Importance;
-import com.projet.v1.planner.enumeration.Progression;
+import com.projet.v1.module.planner.dto.TaskCreationRequest;
+import com.projet.v1.module.planner.dao.Compartiment;
+import com.projet.v1.module.planner.repository.CompartimentRepository;
+import com.projet.v1.module.planner.repository.TaskRepository;
+import com.projet.v1.module.planner.dao.TaskDao;
+import com.projet.v1.module.planner.enumeration.Importance;
+import com.projet.v1.module.planner.enumeration.Progression;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

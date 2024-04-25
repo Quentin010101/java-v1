@@ -1,11 +1,11 @@
 package com.projet.v1;
 
-import com.projet.v1.planner.dao.*;
-import com.projet.v1.planner.enumeration.Importance;
-import com.projet.v1.planner.enumeration.Progression;
-import com.projet.v1.planner.repository.CompartimentRepository;
-import com.projet.v1.planner.repository.TagRepository;
-import com.projet.v1.planner.repository.TaskRepository;
+import com.projet.v1.module.planner.dao.*;
+import com.projet.v1.module.planner.enumeration.Importance;
+import com.projet.v1.module.planner.enumeration.Progression;
+import com.projet.v1.module.planner.repository.CompartimentRepository;
+import com.projet.v1.module.planner.repository.TagRepository;
+import com.projet.v1.module.planner.repository.TaskRepository;
 import com.projet.v1.user.Role;
 import com.projet.v1.user.User;
 import com.projet.v1.user.UserRepository;
@@ -14,10 +14,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 @SpringBootApplication

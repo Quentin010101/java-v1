@@ -1,6 +1,6 @@
-package com.projet.v1.planner.dto;
+package com.projet.v1.module.planner.dto;
 
-import com.projet.v1.planner.dao.TaskDao;
+import com.projet.v1.module.planner.dao.TaskDao;
 
 import java.util.List;
 

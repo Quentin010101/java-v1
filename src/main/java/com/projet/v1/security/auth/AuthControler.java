@@ -1,6 +1,7 @@
 package com.projet.v1.security.auth;
 
 import com.projet.v1.security.JwtService;
+import com.projet.v1.user.User;
 import com.projet.v1.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -27,11 +28,9 @@ public class AuthControler {
 
     @PostMapping("/login")
     public AuthenticationResponseDto login(@RequestBody AuthenticationDto authenticationDto){
-        log.info("authentication with pseudo: " + authenticationDto.pseudo() + " and password: " + authenticationDto.password());
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authenticationDto.pseudo(), authenticationDto.password())
         );
-        log.info("authentication success: " + authentication.isAuthenticated());
 
         if(authentication.isAuthenticated()){
             String token;
@@ -40,9 +39,9 @@ public class AuthControler {
             }else{
                 token = this.jwtService.generate(authenticationDto.pseudo());
             }
-
-            log.info(jwtService.getExpirationDateFromToken(token).toString());
+            User u = (User)userService.loadUserByUsername(authentication.getPrincipal().toString());
             return new AuthenticationResponseDto(
+                    u.getUserId(),
                     authenticationDto.pseudo(),
                     token,
                     this.jwtService.getExpirationDateFromToken(token).getTime()

@@ -1,4 +1,4 @@
-package com.projet.v1.planner.dao;
+package com.projet.v1.module.planner.dao;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

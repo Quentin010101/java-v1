@@ -1,5 +1,6 @@
 package com.projet.v1.user;
 
+import com.projet.v1.security.userConfiguration.UserConfigurationDao;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

@@ -4,6 +4,9 @@ import com.projet.v1.exception.IncorrectRequestInformation;
 import com.projet.v1.security.SecurityConfiguration;
 import com.projet.v1.security.administration.AdministrationNewUserDto;
 import com.projet.v1.security.administration.AdministrationUserDto;
+import com.projet.v1.security.userConfiguration.UserConfigurationDao;
+import com.projet.v1.security.userConfiguration.UserConfigurationRepository;
+import com.projet.v1.security.userConfiguration.UserConfigurationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,8 @@ public class UserService implements UserDetailsService {
     Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private UserConfigurationRepository userConfigurationRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -37,7 +42,15 @@ public class UserService implements UserDetailsService {
         newUser.setRole(Role.USER);
         newUser.setPassword(user.password());
         newUser.setPseudo(user.pseudo());
-        return mapperUserTODto(userRepository.save(newUser));
+        User saved = userRepository.save(newUser);
+        createConfig(saved.getUserId());
+        return mapperUserTODto(saved);
+    }
+
+    public void createConfig(Integer id){
+        UserConfigurationDao config = new UserConfigurationDao();
+        config.setUserId(id);
+        userConfigurationRepository.save(config);
     }
 
     public void deleteUser(Integer id){

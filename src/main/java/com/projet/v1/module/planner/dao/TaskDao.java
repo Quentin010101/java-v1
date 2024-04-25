@@ -1,12 +1,6 @@
-package com.projet.v1.planner.dao;
+package com.projet.v1.module.planner.dao;
 
 
-import com.projet.v1.planner.dao.Commentaire;
-import com.projet.v1.planner.dao.Compartiment;
-import com.projet.v1.planner.dao.Item;
-import com.projet.v1.planner.dao.Tag;
-import com.projet.v1.planner.enumeration.Importance;
-import com.projet.v1.planner.enumeration.Progression;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

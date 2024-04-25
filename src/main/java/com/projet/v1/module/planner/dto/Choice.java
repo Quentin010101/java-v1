@@ -1,4 +1,4 @@
-package com.projet.v1.planner.dto;
+package com.projet.v1.module.planner.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

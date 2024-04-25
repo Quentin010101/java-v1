@@ -1,7 +1,7 @@
-package com.projet.v1.planner.repository;
+package com.projet.v1.module.planner.repository;
 
-import com.projet.v1.planner.dao.Compartiment;
-import com.projet.v1.planner.dao.TaskDao;
+import com.projet.v1.module.planner.dao.Compartiment;
+import com.projet.v1.module.planner.dao.TaskDao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

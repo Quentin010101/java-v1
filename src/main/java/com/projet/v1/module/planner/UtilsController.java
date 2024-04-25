@@ -1,11 +1,11 @@
-package com.projet.v1.planner;
+package com.projet.v1.module.planner;
 
 import com.projet.v1.dto.ResponseDto;
 import com.projet.v1.dto.ResponseObjectDto;
 import com.projet.v1.exception.IncorrectRequestInformation;
-import com.projet.v1.planner.dao.Compartiment;
-import com.projet.v1.planner.dao.Tag;
-import com.projet.v1.planner.service.UtilsService;
+import com.projet.v1.module.planner.dao.Compartiment;
+import com.projet.v1.module.planner.dao.Tag;
+import com.projet.v1.module.planner.service.UtilsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

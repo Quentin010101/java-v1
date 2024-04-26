@@ -6,6 +6,8 @@ import com.projet.v1.module.planner.enumeration.Progression;
 import com.projet.v1.module.planner.repository.CompartimentRepository;
 import com.projet.v1.module.planner.repository.TagRepository;
 import com.projet.v1.module.planner.repository.TaskRepository;
+import com.projet.v1.security.userConfiguration.dto.ModuleDto;
+import com.projet.v1.security.userConfiguration.ModuleEnum;
 import com.projet.v1.security.userConfiguration.UserConfigurationDao;
 import com.projet.v1.security.userConfiguration.UserConfigurationService;
 import com.projet.v1.user.Role;
@@ -69,7 +71,9 @@ public class V1Application implements CommandLineRunner {
 			userRepository.save(u);
 
 			UserConfigurationDao conf = new UserConfigurationDao();
-			conf.setModules(new ArrayList<>());
+			List<ModuleEnum> ll = new ArrayList<>();
+			ll.add(ModuleEnum.PLANNER);
+			conf.setModules(ll);
 			conf.setUserId(i + 1);
 
 			userConfigurationService.save(conf);

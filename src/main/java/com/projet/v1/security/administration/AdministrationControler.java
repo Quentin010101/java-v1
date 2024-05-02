@@ -29,7 +29,7 @@ public class AdministrationControler {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("user/all")
-    public ResponseObjectDto<List<AdministrationUserDto>> getUser(){
+    public ResponseObjectDto<List<AdministrationUserDto>> getUsers(){
         List<AdministrationUserDto> usersList = userService.getAllUsers(Role.USER);
         List<AdministrationUserDto> usersList2 = userService.getAllUsers(Role.DEMO);
         usersList.addAll(usersList2);
@@ -38,20 +38,20 @@ public class AdministrationControler {
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("user/update")
-    public ResponseObjectDto<AdministrationUserDto> update(@RequestBody AdministrationUserDto administrationUserDto) throws IncorrectRequestInformation {
+    public ResponseObjectDto<AdministrationUserDto> updateUser(@RequestBody AdministrationUserDto administrationUserDto) throws IncorrectRequestInformation {
         AdministrationUserDto userResponse = userService.administrationUpdateUser(administrationUserDto);
         return new ResponseObjectDto<>(new ResponseDto("List of all users.", true), userResponse);
     }
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping("user/create")
-    public ResponseObjectDto<AdministrationUserDto> create(@RequestBody AdministrationNewUserDto administrationNewUserDto) throws IncorrectRequestInformation {
+    public ResponseObjectDto<AdministrationUserDto> createUser(@RequestBody AdministrationNewUserDto administrationNewUserDto) throws IncorrectRequestInformation {
         AdministrationNewUserDto userEncoded = new AdministrationNewUserDto(administrationNewUserDto.pseudo(), passwordEncoder.encode(administrationNewUserDto.password()));
         AdministrationUserDto userResponse = userService.create(userEncoded);
         return new ResponseObjectDto<>(new ResponseDto("new User", true), userResponse);
     }
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("user/delete/{id}")
-    public ResponseDto delete(@PathVariable("id") Integer id) throws IncorrectRequestInformation {
+    public ResponseDto deleteUser(@PathVariable("id") Integer id) throws IncorrectRequestInformation {
         userService.deleteUser(id);
         return new ResponseDto("User deleted", true);
     }

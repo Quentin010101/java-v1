@@ -1,5 +1,7 @@
-package com.projet.v1.security.userConfiguration;
+package com.projet.v1.security.administration.userConfiguration;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.projet.v1.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +17,9 @@ public class UserConfigurationDao {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer userConfigurationId;
-    @Column(unique=true)
-    private Integer userId;
     private List<ModuleEnum> modules;
+
+    @OneToOne(mappedBy = "config")
+    @JsonIgnore
+    private User user;
 }

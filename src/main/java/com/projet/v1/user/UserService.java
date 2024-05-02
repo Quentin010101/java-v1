@@ -4,16 +4,17 @@ import com.projet.v1.exception.IncorrectRequestInformation;
 import com.projet.v1.security.SecurityConfiguration;
 import com.projet.v1.security.administration.AdministrationNewUserDto;
 import com.projet.v1.security.administration.AdministrationUserDto;
-import com.projet.v1.security.userConfiguration.UserConfigurationDao;
-import com.projet.v1.security.userConfiguration.UserConfigurationRepository;
-import com.projet.v1.security.userConfiguration.UserConfigurationService;
+import com.projet.v1.security.administration.userConfiguration.ModuleEnum;
+import com.projet.v1.security.administration.userConfiguration.UserConfigurationDao;
+import com.projet.v1.security.administration.userConfiguration.dto.ModuleDto;
+import com.projet.v1.security.administration.userConfiguration.dto.UserConfigurationDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,8 +26,7 @@ public class UserService implements UserDetailsService {
     Logger logger = LoggerFactory.getLogger(SecurityConfiguration.class);
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private UserConfigurationRepository userConfigurationRepository;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -42,15 +42,11 @@ public class UserService implements UserDetailsService {
         newUser.setRole(Role.USER);
         newUser.setPassword(user.password());
         newUser.setPseudo(user.pseudo());
+        UserConfigurationDao conf = new UserConfigurationDao();
+        conf.setModules(new ArrayList<>());
+        newUser.setConfig(conf);
         User saved = userRepository.save(newUser);
-        createConfig(saved.getUserId());
         return mapperUserTODto(saved);
-    }
-
-    public void createConfig(Integer id){
-        UserConfigurationDao config = new UserConfigurationDao();
-        config.setUserId(id);
-        userConfigurationRepository.save(config);
     }
 
     public void deleteUser(Integer id){
@@ -79,6 +75,11 @@ public class UserService implements UserDetailsService {
         return mapperUserTODto(newUser);
     }
 
+    public AdministrationUserDto returnActifUser(){
+       User actifUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+       return mapperUserTODto(actifUser);
+    }
+
     private AdministrationUserDto mapperUserTODto(User user){
         return new AdministrationUserDto(
                 user.getUserId(),
@@ -86,8 +87,25 @@ public class UserService implements UserDetailsService {
                 user.isAccountNonLocked(),
                 user.getPseudo(),
                 user.getDateCreation(),
-                user.getDateLastConnection()
+                user.getDateLastConnection(),
+                mapperConfigToDto(user.getConfig())
         );
+    }
+
+    private UserConfigurationDto mapperConfigToDto(UserConfigurationDao config){
+        return new UserConfigurationDto(
+                config.getUserConfigurationId(),
+                mapperModuleToDto(config.getModules())
+        );
+    }
+
+    private List<ModuleDto> mapperModuleToDto(List<ModuleEnum> modules){
+        List<ModuleDto> list = new ArrayList<>();
+        for(ModuleEnum module :modules){
+            ModuleDto m = new ModuleDto(module.getModuleId(),module.getName());
+            list.add(m);
+        }
+        return list;
     }
 
 }

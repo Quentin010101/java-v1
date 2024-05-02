@@ -1,4 +1,4 @@
-package com.projet.v1.security.userConfiguration.dto;
+package com.projet.v1.security.administration.userConfiguration.dto;
 
 
 import lombok.AllArgsConstructor;
@@ -15,6 +15,5 @@ import java.util.List;
 public class UserConfigurationDto {
 
     private Integer userConfigurationId;
-    private Integer userId;
     private List<ModuleDto> modules;
 }

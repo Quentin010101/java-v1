@@ -1,4 +1,4 @@
-package com.projet.v1.security.userConfiguration;
+package com.projet.v1.security.administration.userConfiguration;
 
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package com.projet.v1.security.userConfiguration.dto;
+package com.projet.v1.security.administration.userConfiguration.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

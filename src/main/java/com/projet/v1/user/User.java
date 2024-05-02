@@ -1,6 +1,6 @@
 package com.projet.v1.user;
 
-import com.projet.v1.security.userConfiguration.UserConfigurationDao;
+import com.projet.v1.security.administration.userConfiguration.UserConfigurationDao;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +28,10 @@ public class User implements UserDetails {
     private boolean isAccountNonLocked;
     private Date dateCreation;
     private Date dateLastConnection;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userConfigurationId", referencedColumnName = "userConfigurationId")
+    private UserConfigurationDao config;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

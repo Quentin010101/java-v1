@@ -67,7 +67,7 @@ public class V1Application implements CommandLineRunner {
 
 			UserConfigurationDao conf = new UserConfigurationDao();
 			List<ModuleEnum> ll = new ArrayList<>();
-			if(i == 0){
+			if(i == 0 || i == 1){
 				ll.add(ModuleEnum.PLANNER);
 			}
 

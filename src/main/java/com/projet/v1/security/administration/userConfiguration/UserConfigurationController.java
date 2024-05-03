@@ -3,6 +3,7 @@ package com.projet.v1.security.administration.userConfiguration;
 import com.projet.v1.dto.ResponseDto;
 import com.projet.v1.dto.ResponseObjectDto;
 import com.projet.v1.security.administration.AdministrationUserDto;
+import com.projet.v1.security.administration.userConfiguration.dto.ModuleDto;
 import com.projet.v1.user.User;
 import com.projet.v1.user.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,8 +30,9 @@ public class UserConfigurationController {
     }
 
     @GetMapping("modules")
-    public ResponseObjectDto<List<ModuleEnum>> getModules(){
-        List<ModuleEnum> list = List.of(ModuleEnum.values());
+    public ResponseObjectDto<List<ModuleDto>> getModules(){
+        List<ModuleEnum> listEnum = List.of(ModuleEnum.values());
+        List<ModuleDto> list = userService.mapperModuleToDto(listEnum);
         return new ResponseObjectDto<>(new ResponseDto("List of modules", true), list);
     }
 

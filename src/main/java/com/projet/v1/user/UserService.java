@@ -99,7 +99,7 @@ public class UserService implements UserDetailsService {
         );
     }
 
-    private List<ModuleDto> mapperModuleToDto(List<ModuleEnum> modules){
+    public List<ModuleDto> mapperModuleToDto(List<ModuleEnum> modules){
         List<ModuleDto> list = new ArrayList<>();
         for(ModuleEnum module :modules){
             ModuleDto m = new ModuleDto(module.getModuleId(),module.getName());

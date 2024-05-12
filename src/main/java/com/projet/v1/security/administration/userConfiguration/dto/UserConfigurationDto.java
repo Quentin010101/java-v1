@@ -16,4 +16,12 @@ public class UserConfigurationDto {
 
     private Integer userConfigurationId;
     private List<ModuleDto> modules;
+
+    @Override
+    public String toString() {
+        return "UserConfigurationDto{" +
+                "userConfigurationId=" + userConfigurationId +
+                ", modules=" + modules +
+                '}';
+    }
 }

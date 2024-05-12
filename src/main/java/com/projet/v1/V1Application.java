@@ -69,6 +69,7 @@ public class V1Application implements CommandLineRunner {
 			List<ModuleEnum> ll = new ArrayList<>();
 			if(i == 0 || i == 1){
 				ll.add(ModuleEnum.PLANNER);
+				ll.add(ModuleEnum.GAMES);
 			}
 
 			conf.setModules(ll);

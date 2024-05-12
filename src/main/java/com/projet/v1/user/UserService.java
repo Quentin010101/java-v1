@@ -8,6 +8,7 @@ import com.projet.v1.security.administration.userConfiguration.ModuleEnum;
 import com.projet.v1.security.administration.userConfiguration.UserConfigurationDao;
 import com.projet.v1.security.administration.userConfiguration.dto.ModuleDto;
 import com.projet.v1.security.administration.userConfiguration.dto.UserConfigurationDto;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+@Slf4j
 
 @Service
 public class UserService implements UserDetailsService {
@@ -71,6 +73,9 @@ public class UserService implements UserDetailsService {
         if(userDto.userId() == null) throw new IncorrectRequestInformation("User id is not set.");
         User user = userRepository.findById(userDto.userId()).orElseThrow();
         user.setAccountNonLocked(userDto.accountNonLocked());
+        UserConfigurationDao configDao = user.getConfig();
+        configDao.setModules(mapperModuleToDao(userDto.config().getModules()));
+        user.setConfig(configDao);
         User newUser = userRepository.save(user);
         return mapperUserTODto(newUser);
     }
@@ -103,6 +108,16 @@ public class UserService implements UserDetailsService {
         List<ModuleDto> list = new ArrayList<>();
         for(ModuleEnum module :modules){
             ModuleDto m = new ModuleDto(module.getModuleId(),module.getName());
+            list.add(m);
+        }
+        return list;
+    }
+
+    public List<ModuleEnum> mapperModuleToDao(List<ModuleDto> modules){
+        List<ModuleEnum> list = new ArrayList<>();
+        for(ModuleDto module :modules){
+            log.info(module.getName());
+            ModuleEnum m = ModuleEnum.valueOf(module.getModuleId());
             list.add(m);
         }
         return list;

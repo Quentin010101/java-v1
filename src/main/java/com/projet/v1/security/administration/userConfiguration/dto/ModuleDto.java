@@ -12,4 +12,12 @@ import lombok.Setter;
 public class ModuleDto {
     private Integer moduleId;
     private String name;
+
+    @Override
+    public String toString() {
+        return "ModuleDto{" +
+                "moduleId=" + moduleId +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

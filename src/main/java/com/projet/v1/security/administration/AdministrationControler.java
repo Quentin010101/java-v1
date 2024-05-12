@@ -3,6 +3,7 @@ package com.projet.v1.security.administration;
 import com.projet.v1.dto.ResponseDto;
 import com.projet.v1.dto.ResponseObjectDto;
 import com.projet.v1.exception.IncorrectRequestInformation;
+import com.projet.v1.security.administration.userConfiguration.dto.ModuleDto;
 import com.projet.v1.user.Role;
 import com.projet.v1.user.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,11 @@ public class AdministrationControler {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("user/update")
     public ResponseObjectDto<AdministrationUserDto> updateUser(@RequestBody AdministrationUserDto administrationUserDto) throws IncorrectRequestInformation {
+        log.info("update");
+        log.info(administrationUserDto.toString());
+        for(ModuleDto m : administrationUserDto.config().getModules()){
+            log.info(m.toString());
+        }
         AdministrationUserDto userResponse = userService.administrationUpdateUser(administrationUserDto);
         return new ResponseObjectDto<>(new ResponseDto("List of all users.", true), userResponse);
     }

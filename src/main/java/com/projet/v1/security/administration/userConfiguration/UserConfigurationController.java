@@ -18,7 +18,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @CrossOrigin("${frontend.server.url}")
-@RequestMapping("/administration/configuration")
+@RequestMapping("/configuration")
 public class UserConfigurationController {
 
     @Autowired
@@ -29,7 +29,7 @@ public class UserConfigurationController {
         return new ResponseObjectDto<>(new ResponseDto("List of modules", true), userService.returnActifUser());
     }
 
-    @GetMapping("modules")
+    @GetMapping("/modules")
     public ResponseObjectDto<List<ModuleDto>> getModules(){
         List<ModuleEnum> listEnum = List.of(ModuleEnum.values());
         List<ModuleDto> list = userService.mapperModuleToDto(listEnum);
